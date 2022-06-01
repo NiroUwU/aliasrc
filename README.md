@@ -20,7 +20,9 @@ execute `echo $SHELL` in your terminal)
 
 ### Automatic installation
 
-`inst="aliasrc_install.sh"; curl "https://raw.githubusercontent.com/NiroUwU/aliasrc/main/install.sh" > "$inst" && chmod +x "$inst" && ./"$inst"`
+```bash
+inst="aliasrc_install.sh"; curl "https://raw.githubusercontent.com/NiroUwU/aliasrc/main/install.sh" > "$inst" && chmod +x "$inst" && ./"$inst"
+```
 
 ## Features
 
