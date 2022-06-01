@@ -3,9 +3,9 @@
 This is the repository for my personal alias "manager". Feel free to use it and
 modify to your hearts content!
 
-# Installation
+## Installation
 
-## Manual Installation
+### Manual Installation
 
 You can manually download the aliasrc file and add "source PATH_TO_ALIASRC"
 (default: `source ~/aliasrc`) at the bottom of your shell rc file.
@@ -15,16 +15,16 @@ Most common shells you may have:
 - bash (~/.bashrc)
 - zsh (~/.zshrc)
 
-Most Shells follow this style. (if you don't know which shell you are using, 
+Most Shells follow this style. (if you don't know which shell you are using,
 execute `echo $SHELL` in your terminal)
 
-## Automatic installation
+### Automatic installation
 
-Coming Soon!
+`inst="aliasrc_install.sh"; curl "https://raw.githubusercontent.com/NiroUwU/aliasrc/main/install.sh" > "$inst" && chmod +x "$inst" && ./"$inst"`
 
-# Features
+## Features
 
-## Command `aliashelp`
+### Command `aliashelp`
 
 Easily manage your custom aliases in one file. Add comments to your aliases and
 use `aliashelp ALIAS_HERE` to display information about the alias (description
@@ -32,11 +32,11 @@ and what it actually executes).
 
 Type `aliashelp` to list all custom aliases you set using aliasrc
 
-## Command `aliasrc_update`
+### Command `aliasrc_update`
 
-Fetch the newest version of aliasrc from this repository. 
+Fetch the newest version of aliasrc from this repository.
 
-## "cmd" and "pgm"
+### "cmd" and "pgm"
 
 Your aliasrc file should not contain your actual aliases, for that an extra
 file is created, called "alias_list" by default. You can specify your aliases
@@ -69,7 +69,7 @@ pgm "startAnotherProgram" "anotherEpicProgram" "Starts another epic program" ~/A
 Additionally "pgm" checks if the executable is in the specified location, and
 tells you if no valid file was found.
 
-## Configuration
+### Configuration
 
 On first startup aliasrc creates a config file (default:
 `~/.config/aliasrc.conf`), where you can change several variables.
@@ -84,9 +84,8 @@ updating)
 - colours of aliashelp output, colours of warning and error messages
 - static text output for aliashelp command
 
-## Screenshots
+### Screenshots
 
 <img src="./.pictures/aliashelp.png" alt="Aliashelp Picture"            width=575/>
 <img src="./.pictures/config.png"    alt="Config Options"               width=575/>
 <img src="./.pictures/list.png"      alt="List of examples for aliases" width=575/>
-
