@@ -89,3 +89,8 @@ updating)
 <img src="./.pictures/aliashelp.png" alt="Aliashelp Picture"            width=575/>
 <img src="./.pictures/config.png"    alt="Config Options"               width=575/>
 <img src="./.pictures/list.png"      alt="List of examples for aliases" width=575/>
+
+## Dependancies
+
+- bash
+- curl
