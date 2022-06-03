@@ -201,7 +201,7 @@ function aliasrc_update() {
 
 	# Weird stuff going on with curl, asking user:
 	local LENGTH_old=${#OLD}
-	local LENGTH_new=0 #${#NEW}
+	local LENGTH_new=${#NEW}
 	[ "$LENGTH_new" -lt $((LENGTH_old / 3)) ] && 
 		echo -e "\n>>> Start of fetched data:\n\n$COL_error$NEW$COL_reset\n\n>>> End of fetched data\n" &&
 		printcoloured "$COL_error" "WARNING: Fetched possibly corrupted or wrong file! Continue anyways? [y/N] " && askForConsent
@@ -221,8 +221,7 @@ function aliasrc_update() {
 	attemptBackup || backupFailedCatch
 	[ $CONTINUE -eq 1 ] || return
 
-	#echo "$NEW" > "$PATH_aliasrc" && 
-	echo "Update complete. Refresh aliasrc (aliasrc_refresh) or restart current session to apply changes." || echo -e "Update Failed."
+	echo "$NEW" > "$PATH_aliasrc" && echo "Update complete. Refresh aliasrc (aliasrc_refresh) or restart current session to apply changes." || echo -e "Update Failed."
 }
 
 # Clears all .alias files in cache directory
