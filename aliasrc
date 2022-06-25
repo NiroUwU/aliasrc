@@ -10,6 +10,7 @@ PATH_repository="https://raw.githubusercontent.com/NiroUwU/aliasrc/main/aliasrc"
 PATH_cache=~/.cache/aliasrc
 PATH_backup="$PATH_cache/backup"
 PATH_programs=~/Programs
+PATH_profile=~/profile
 	
 # File Paths:
 PATH_aliasrc=~/aliasrc
@@ -40,7 +41,7 @@ COL_info_exec="\\e[30m"
 # VARIABLES:
 
 # LOAD CUSTOM CONFIG FILE:
-PATH_config=~/.config/aliasrc.conf
+PATH_config=~/.config/aliasrc.config
 [ -f "$PATH_config" ]  || ( echo -e "#!/bin/bash\n$CONFIG_variables" > $PATH_config && echo -e "Created config file in '$PATH_config'" && chmod +x $PATH_config )
 # shellcheck source=/dev/null
 source "$PATH_config"
@@ -56,6 +57,7 @@ source "$PATH_config"
 # File Paths:
 [ "$PATH_aliasrc" ]    || PATH_aliasrc=~/aliasrc
 [ "$PATH_alias_list" ] || PATH_alias_list=~/alias_list
+[ "$PATH_profile" ]    || PATH_profile=~/profile
 
 # Aliasrc Colours:
 [ "$COL_reset" ]       || COL_reset="\\e[0m"
@@ -141,7 +143,8 @@ function aliashelp() {
 		local file="$1"
 
 		# Check if alias cache file exists:
-		[ -f "$file" ] || ( echo -e "Alias not found at '$file'" && return )
+		[ -f "$file" ] || echo -e "Alias not found at '$file'"
+		[ -f "$file" ] || return 1
 
 		# Source alias information:
 		local alias_name=""
@@ -149,14 +152,13 @@ function aliashelp() {
 		local alias_desc=""
 
 		# shellcheck source=/dev/null
-		source "$file"
-		echo -e "$COL_title_alias$TEXT_alias$COL_reset$COL_info_alias$alias_name$COL_reset\n$COL_title_desc$TEXT_desc$COL_reset$COL_info_desc$alias_desc$COL_reset\n$COL_title_exec$TEXT_exec$COL_reset$COL_info_exec$alias_exec$COL_reset"
+		source "$file" && echo -e "$COL_title_alias$TEXT_alias$COL_reset$COL_info_alias$alias_name$COL_reset\n$COL_title_desc$TEXT_desc$COL_reset$COL_info_desc$alias_desc$COL_reset\n$COL_title_exec$TEXT_exec$COL_reset$COL_info_exec$alias_exec$COL_reset"
 	}
 
-	local this=$1
+	local these=$@
 	local operation=""
 
-	[ "$this" ] && operation="request_specific" || operation="display_all"
+	[ "$these" ] && operation="request_specific" || operation="display_all"
 
 	# Execute operation:
 	case "$operation" in
@@ -169,8 +171,10 @@ function aliashelp() {
 			;;
 
 		request_specific)
-			local file="$PATH_cache/$this.alias"
-			displayInfo "$file"
+			for this in "$@"; do
+				local file="$PATH_cache/$this.alias"
+				displayInfo "$file" && printf "\n"
+			done
 			;;
 
 	esac
@@ -234,8 +238,9 @@ function aliasrc_clearcache() {
 # EXECUTE COMMANDS:
 
 # Clear cache before import:
-aliasrc_clearcache
-
+if [[ -f "$PATH_cache"/*.alias ]]; then
+	aliasrc_clearcache
+fi
 
 
 # ALIASRC COMMANDS:
@@ -245,6 +250,12 @@ cmd "aliasrc_clearcache" "aliasrc_clearcache" "Clears cached alias files in '$PA
 cmd "aliasrc_update"     "aliasrc_update" "Updates aliasrc, if new version is available."
 cmd "aliasrc_refresh"    '(source \"$PATH_aliasrc\" && echo -e "Aliasrc\ refreshed!"") || (echo -e "Aliasrc could not be refreshed...")' "Refreshes your aliases"
 
+# Load profile file:
+if [[ -f "$PATH_profile" ]]; then
+	# shellcheck source=/dev/null
+	source "$PATH_profile" || echo -e "There was an error loading your profile file at '$PATH_profile'!"
+fi
+
 # Load user aliases:
 # shellcheck source=/dev/null
-source "$PATH_alias_list" || echo -e "Could not locate alias list at '$PATH_alias_list'"
+source "$PATH_alias_list"  || echo -e "There was an error loading your alias list file at '$PATH_alias_list'!"
