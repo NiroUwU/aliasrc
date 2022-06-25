@@ -233,6 +233,10 @@ function aliasrc_clearcache() {
 	rm "$PATH_cache"/*.alias
 }
 
+# Refresh aliasrc
+function aliasrc_refresh() {
+	(source "$PATH_aliasrc" && echo -e "Aliasrc refreshed!") || (echo -e "Aliasrc could not be refreshed...")
+}
 
 
 # EXECUTE COMMANDS:
@@ -248,7 +252,7 @@ fi
 cmd "aliashelp"          "aliashelp" "Displays help information about added aliases."
 cmd "aliasrc_clearcache" "aliasrc_clearcache" "Clears cached alias files in '$PATH_cache'."
 cmd "aliasrc_update"     "aliasrc_update" "Updates aliasrc, if new version is available."
-cmd "aliasrc_refresh"    '(source \"$PATH_aliasrc\" && echo -e "Aliasrc\ refreshed!"") || (echo -e "Aliasrc could not be refreshed...")' "Refreshes your aliases"
+cmd "aliasrc_refresh"    "aliasrc_refresh" "Refreshes your aliases"
 
 # Load profile file:
 if [[ -f "$PATH_profile" ]]; then
