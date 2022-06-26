@@ -197,7 +197,7 @@ function aliasrc_update() {
 	local OLD && OLD=$(curl file:"$PATH_aliasrc")
 
 	# No differences found, return:
-	[[ $( echo -e "$NEW" ) == $( echo -e"$OLD" ) ]] && echo -e "\nYour aliasrc is up-to date! Quitting Update. :)" && return 0
+	[[ $( echo -e "$NEW" ) == $( echo -e "$OLD" ) ]] && echo -e "\nYour aliasrc is up-to date! Quitting Update. :)" && return 0
 
 	# Differences found, asking to update:
 	printf "A new version was found, do you wish to update? [Y/n] " && askForConsent
