@@ -197,7 +197,7 @@ function aliasrc_update() {
 	local OLD && OLD=$(curl file:"$PATH_aliasrc")
 
 	# No differences found, return:
-	[[ "$NEW" == "$OLD" ]] && echo -e "\nYour aliasrc is up-to date! Quitting Update. :)" && return 0
+	[[ $( echo -e "$NEW" ) == $( echo -e"$OLD" ) ]] && echo -e "\nYour aliasrc is up-to date! Quitting Update. :)" && return 0
 
 	# Differences found, asking to update:
 	printf "A new version was found, do you wish to update? [Y/n] " && askForConsent
@@ -216,7 +216,7 @@ function aliasrc_update() {
 	local backup_name="$PATH_backup/aliasrc.backupfrom_$backup_time"
 
 	function attemptBackup() {
-		echo -e "$OLD" > "$backup_name" || return 1
+		echo -E "$OLD" > "$backup_name" || return 1
 		echo -e "Backed up current aliasrc to '$backup_name'."
 	}
 	function backupFailedCatch() {
@@ -225,7 +225,7 @@ function aliasrc_update() {
 	attemptBackup || backupFailedCatch
 	[ $CONTINUE -eq 1 ] || return
 
-	echo "$NEW" > "$PATH_aliasrc" && echo "Update complete. Refresh aliasrc (aliasrc_refresh) or restart current session to apply changes." || echo -e "Update Failed."
+	echo -E "$NEW" > "$PATH_aliasrc" && echo -e "Update complete. Refresh aliasrc (aliasrc_refresh) or restart current session to apply changes." || echo -e "Update Failed."
 }
 
 # Clears all .alias files in cache directory
@@ -239,12 +239,14 @@ function aliasrc_refresh() {
 }
 
 
+
 # EXECUTE COMMANDS:
 
 # Clear cache before import:
 if [[ -f "$PATH_cache"/*.alias ]]; then
 	aliasrc_clearcache
 fi
+
 
 
 # ALIASRC COMMANDS:
